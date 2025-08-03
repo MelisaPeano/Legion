@@ -1,4 +1,4 @@
-package university.jala.capstonelegion;
+package university.jala.capstonelegion.enums;
 
 public enum AlgorithmEnum {
     SORT("Selection sort", "S", "s"),
@@ -18,5 +18,13 @@ public enum AlgorithmEnum {
     AlgorithmEnum(String name, String symbol, String symbol2) {
         this.name = name;
         this.symbol = symbol;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public String getSymbol2() {
+        return symbol2;
     }
 }

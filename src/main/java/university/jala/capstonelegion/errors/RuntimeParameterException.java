@@ -1,8 +1,9 @@
-package university.jala.capstonelegion;
+package university.jala.capstonelegion.errors;
 
 public class RuntimeParameterException extends RuntimeException {
-    public RuntimeParameterException(String message) {
-        super(message);
+    public RuntimeParameterException() {
+        super();
         throw new IllegalArgumentException("[Invalid");
     }
+
 }
