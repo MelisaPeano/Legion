@@ -1,7 +1,9 @@
 package university.jala.capstonelegion.players;
 
-public class Engineer extends Character {
-    public Engineer(String name, int live, int speed, int force, int rank) {
-        super(name, live, speed, force, rank);
+import university.jala.capstonelegion.enums.CharacterSymbol;
+
+public class Engineer extends GameCharacter {
+    public Engineer(String name, int live, int speed, int force, int rank, CharacterSymbol symbol) {
+        super(name, live, speed, force, rank, symbol);
     }
 }

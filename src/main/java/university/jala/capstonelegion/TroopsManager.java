@@ -3,8 +3,8 @@ package university.jala.capstonelegion;
 import university.jala.capstonelegion.enums.AlgorithmEnum;
 import university.jala.capstonelegion.errors.RuntimeParameterException;
 import university.jala.capstonelegion.errors.RuntimeParameterExceptionWithMessage;
-import university.jala.capstonelegion.players.Character;
 import university.jala.capstonelegion.players.CharacterFactory;
+import university.jala.capstonelegion.players.GameCharacter;
 import university.jala.capstonelegion.printer.PrintManager;
 
 import java.util.*;
@@ -13,115 +13,160 @@ public class TroopsManager {
 
     private final Validator validator;
     private final PrintManager printManager;
+    private final CharacterFactory characterFactory;
+    private final TroopOrdering troopOrdering;
 
-    private List<Troops> troops;
+   // private List<Troops> troops;
     private AlgorithmEnum algorithm;
     private Object parameterType;
-    private String orientation;
-    private int[] units;
+  //  private String orientation;
+    private int units;
     private Object[][] matriz;
     private int rows;
     private int columns;
+    private HashMap<String, Object> parameters;
 
 
     public TroopsManager() {
-        this.troops = null;
+        this.characterFactory = new CharacterFactory();
+        // this.troops = null;
         this.algorithm = null;
         this.parameterType = null;
-        this.orientation = null;
-        this.units = null;
+        // this.orientation = null;
+        this.units = 0;
         this.matriz = null;
         this.printManager = new PrintManager();
         this.validator = new Validator();
+        this.troopOrdering = new TroopOrdering();
+        this.parameters = new HashMap<>();
 
     }
-    public void processParameters(String[] args)  {
-        Map<String, String> parameters = new HashMap<>();
 
-        for (String arg : args) {
-            String[] parts = arg.split("=");
-            if (parts.length == 2) {
-                String key = parts[0];
-                String value = parts[1];
-                parameters.put(key, value);
+    int[] arrayNumber;
+    boolean invalidParameters = false;
 
-                switch (key) {
-                    case "a":
-                        try {
-                            if(validator.isString(value)) {
-                               for(AlgorithmEnum algorithm : AlgorithmEnum.values()) {
-                                   if(Objects.equals(algorithm.getSymbol(), value) || Objects.equals(algorithm.getSymbol2(), value)) {
-                                       this.algorithm = algorithm;
-                                   }
-                               }
-                            } else {
-                                throw new RuntimeParameterException();
-                            }
-                        } catch (RuntimeParameterExceptionWithMessage e) {
-                            throw new RuntimeException(e);
-                        }
-                        break;
-                    case "t":
-                        try {
+    public void VerifyParameters(String[] args) throws RuntimeParameterExceptionWithMessage {
+        try {
+            for (String arg : args) {
+                String[] parts = arg.split("=");
+                if (parts.length == 2) {
+                    String key = parts[0];
+                    String value = parts[1];
+
+                    switch (key) {
+                        case "a":
                             if (validator.isString(value)) {
-                                this.parameterType = value;
-                                if(value.equals("c")) {
-                                    printManager.printFieldWithStrings(this.matriz);
-                                } else if(value.equals("n")) {
-                                    printManager.printFieldWithNumbers(this.matriz);
+
+                                String algorithm = value.toLowerCase();
+                                switch (algorithm) {
+                                    case "i" -> this.algorithm = AlgorithmEnum.INSERTION_SORT;
+                                    case "s" -> this.algorithm = AlgorithmEnum.SORT;
+                                    case "b" -> this.algorithm = AlgorithmEnum.BUBBLE_SORT;
                                 }
+                                parameters.put("algorithm", algorithm);
                             } else {
-                                throw new RuntimeParameterException();
+                                invalidParameters = true;
+                                System.out.println("[INVALID");
                             }
-                        } catch (RuntimeParameterExceptionWithMessage e) {
-                            throw new RuntimeException(e);
-                        }
-                        break;
-                    case "f":
-                        try {
-                            if(validator.isString(value)) {
-                                String[] values = value.split("(?i)x");
-                                int rows = Integer.parseInt(values[0]);
-                                int columns = Integer.parseInt(values[1]);
-                                if (rows > 5 && rows < 1000 && columns > 5 && columns < 1000) {
-                                    rows = rows;
-                                    columns = columns;
-                                } else {
-                                    rows = 10;
-                                    columns = 10;
+                            break;
+
+                        case "t":
+                            if (validator.isString(value)) {
+                                this.parameterType = value.toLowerCase();
+                                parameters.put("type", value);
+                            } else {
+                                invalidParameters = true;
+                                System.out.println("[INVALID]");
+                            }
+                            break;
+
+                        case "u":
+                            this.arrayNumber = validator.isNumberArray(value);
+                            if (arrayNumber != null) {
+                                for (int j : arrayNumber) {
+                                    units += j;
                                 }
+                                parameters.put("troops ", units);
+                            } else {
+                                invalidParameters = true;
+                                System.out.println("[INVALID");
                             }
-                        } catch (RuntimeParameterExceptionWithMessage e) {
-                            throw new RuntimeException(e);
-                        }
-                        break;
-                    case "u":
-                        try {
-                            int [] arrayNumber = validator.isNumberArray(value);
-                            if(arrayNumber != null ){
-                                representationOfBattlefield(arrayNumber);
+                            break;
+                        case "r":
+                            this.arrayNumber = validator.isNumberArray(value);
+                            if (arrayNumber != null) {
+                                for (int j : arrayNumber) {
+                                    units += j;
+                                }
+                                parameters.put("troops:", units);
+                            } else {
+                                invalidParameters = true;
+                                System.out.println("[INVALID");
                             }
-                        } catch (RuntimeParameterExceptionWithMessage e) {
-                            throw new RuntimeException(e);
-                        }
+                            break;
+                        case "f":
+                            try {
+                                int size = Integer.parseInt(value);
+
+                                if (size == 0) {
+                                    parameters.put("Battlefield", 6);
+                                }
+
+                                if (size > 5 && size < 1000) {
+                                    this.rows = size;
+                                    this.columns = size;
+                                } else {
+                                    this.rows = 6;
+                                    this.columns = 6;
+                                }
+                                parameters.put("Battlefield", rows);
+                            } catch (NumberFormatException e) {
+                                invalidParameters = true;
+                            }
+                            break;
+
+                    }
                 }
-            } else {
-                try {
-                    throw new RuntimeParameterExceptionWithMessage("Invalid Parameters");
-                } catch (RuntimeParameterExceptionWithMessage e) {
-                    throw new RuntimeException(e);
-                }
+
             }
+        } catch (RuntimeParameterException e) {
+            System.out.println("Algorithm: [INVALID]");
+            System.out.println("Type: [INVALID]");
+            System.out.println("Troops: [INVALID]");
+            System.out.println("\nInvalid parameters:");
+            throw new RuntimeParameterExceptionWithMessage(e.getMessage());
         }
     }
-    public void AssignRandomTroops(){
-        /*
-        Se seleccionarán aleatoriamente unidades del conjunto disponible de
-        tipos de tropas (por ejemplo: comandante, médico, infantería, y
-        otros elementos relacionados, según lo definido en el proyecto),
-        hasta alcanzar las cantidades indicadas por el parámetro r.
-        Esta selección debe hacerse mediante un generador de números aleatorios.
-         */
+
+    public boolean ProcessParameters() {
+        if (invalidParameters) {
+            System.out.println("Algorithm: [INVALID]");
+            System.out.println("Type: [INVALID]");
+            System.out.println("Troops: [INVALID]");
+            System.out.println("\nInvalid parameters:");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public void AssignRandomTroops() {
+        List<Object> lista = new ArrayList<>();
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                lista.add(matriz[i][j]);
+            }
+        }
+        Collections.shuffle(lista);
+
+        int index = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                matriz[i][j] = lista.get(index++);
+            }
+        }
+        printManager.print(matriz,parameterType);
     }
 
     public void battlefieldRestriction() {
@@ -139,23 +184,61 @@ public class TroopsManager {
          */
     }
 
-    public void representationOfBattlefield(int[] arrayNumber) {
-        matriz = new Object[rows][columns];
+    public void representationOfBattlefield() {
 
-        List<Character> characters = CharacterFactory(int[] arrayNumber);
+        HashMap<String, Object> valParameters = validator.hashValidation(this.parameters);
+        int number = (int) valParameters.get("Battlefield");
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
+        String algorithmName = this.algorithm.getName();
 
+        for (String key : valParameters.keySet()) {
+            if (key.equals("troops")) {
+                System.out.println("Troops: [" + (int) valParameters.get(key) + "]\n");
+            } else if (key.equals("type") && valParameters.get("type").equals("c")) {
+                System.out.println("Type: [Character] \n");
+            } else if (key.equals("type") && valParameters.get("type").equals("n"))  {
+                System.out.println("Type: [Number] \n");
+            } else if (key.equals("algorithm")) {
+                System.out.println("Algorithm: [" + algorithmName + "]" );
+            }
+
+        }
+        System.out.println("\nInitial Position:\n");
+
+        this.rows = number;
+        this.columns = number;
+
+        this.matriz = new Object[number][number];
+
+        List<GameCharacter> characters = characterFactory.createCharacter(this.arrayNumber);
+
+        int index = 0;
+        for (int i = 0; i < rows && index < characters.size(); i++) {
+            for (int j = 0; j < columns && index < characters.size(); j++) {
+                matriz[i][j] = characters.get(index++);
             }
         }
 
-        /*
-        Representación Interna del Campo:
-        Se debe crear una estructura interna del campo de batalla en el programa
-         (una matriz, lista o mapa), donde se registren las tropas y sus posiciones.
-         */
     }
 
+    public void OrderByAlgorithm() {
+        switch (this.algorithm) {
+            case INSERTION_SORT -> {
+                System.out.println("\nOrdenando con Insertion Sort...\n");
+                this.matriz = troopOrdering.orderByInsertion(rows, columns, matriz,parameterType);
+            }
+            case HEAP_SORT -> System.out.println("Heap sort");
+            case QUICK_SORT -> System.out.println("Quick sort");
+            case MERGE_SORT -> System.out.println("Merge sort");
+            case BUBBLE_SORT -> System.out.println("Bubble sort");
+            case CURTING_SORT -> System.out.println("Curting sort");
+            case RADIX_SORT -> System.out.println("Radix sort");
+            case SORT -> System.out.println("Sort");
+            default -> throw new RuntimeParameterException();
+
+        }
+        printManager.print(this.matriz, parameterType);
+    }
 
 }
+

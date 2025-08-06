@@ -1,42 +1,35 @@
 package university.jala.capstonelegion;
-/*
-• Validar posiciones válidas en el campo.
-• Validar que las tropas no excedan el campo de batalla.
-• Manejar errores de entrada del usuario.
-• Validar que las diferentes unidades no se mezclen.
- */
 
-// Maps para validación de parámetros
-// Asegurar un manejo adecuado de errores y situaciones inesperadas.
-//• Control de argumentos.
-
-import university.jala.capstonelegion.errors.RuntimeParameterExceptionWithMessage;
+import java.util.HashMap;
 
 public class Validator {
-    public void validator() {}
 
-    public boolean isString(String string) throws RuntimeParameterExceptionWithMessage {
+    public boolean isString(String string) {
         if (!string.matches("[a-zA-Z]+")) {
-            throw new RuntimeParameterExceptionWithMessage("'a' must contain only alphanumeric characters");
+           return false;
         } else {
             return true;
         }
     }
 
-    public int[] isNumberArray(String string) throws RuntimeParameterExceptionWithMessage {
-        String[] numbers = string.split(",");
-        for (String number : numbers) {
-            try {
-                Integer.parseInt(number.trim());
-                int [] numberArray = new int[numbers.length];
-                for (int i = 0; i < numberArray.length; i++) {
-                    numberArray[i] = Integer.parseInt(number);
-                }
-                return numberArray;
-            } catch (NumberFormatException e) {
-                throw new RuntimeParameterExceptionWithMessage("All elements must be numeros");
+    public int[] isNumberArray(String string) {
+
+        String[] parts = string.split(",");
+            int[] result = new int[parts.length];
+            for (int i = 0; i < parts.length; i++) {
+                result[i] = Integer.parseInt(parts[i].trim());
             }
-        }
-        return null;
+            return result;
+
     }
+
+    public HashMap<String, Object> hashValidation(HashMap<String, Object> hashMap) {
+        if (!hashMap.containsKey("Battlefield")) {
+            hashMap.put("Battlefield", 6);
+            System.out.println( "Battlefield: " + "[" + 6 + "x" + 6 + "] \n" );
+        }
+        return hashMap;
+    }
+
+
 }

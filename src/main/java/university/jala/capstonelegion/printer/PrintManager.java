@@ -1,8 +1,10 @@
 package university.jala.capstonelegion.printer;
 
-/*
-Muestra visual del campo de batalla una al principio y al final del ordenamiento.
- */
+import university.jala.capstonelegion.players.GameCharacter;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class PrintManager {
 
@@ -10,23 +12,23 @@ public class PrintManager {
 
     }
 
-    public void printFieldOfGame(Object[][] field) {
-
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                if (i < rows.length && j < rows[i].length()) {
-                    board[i][j] = new Cell(rows[i].charAt(j) == '1' ? 1 : 0);
+    public void print(Object [][] fields, Object type) {
+        for (int i = 0; i < fields.length; i++) {
+            for (int j = 0; j < fields[0].length; j++) {
+                Object field = fields[i][j];
+                if (field instanceof GameCharacter) {
+                    GameCharacter ch = (GameCharacter) field;
+                    if(type.equals("c")) {
+                        System.out.print(ch.getSymbol() + "\t");
+                    }else{
+                        System.out.print(ch.getNumberSymbol() + "\t");
+                    }
                 } else {
-                    board[i][j] = new Cell(0);
+                    System.out.print("*\t");
                 }
             }
+            System.out.println();
         }
-        return board;
     }
 
-    public void printFieldWithStrings(Object [][] fields) {
-    }
-
-    public void printFieldWithNumbers(Object [][] fields) {
-    }
 }
