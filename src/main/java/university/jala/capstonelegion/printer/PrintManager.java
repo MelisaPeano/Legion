@@ -2,15 +2,7 @@ package university.jala.capstonelegion.printer;
 
 import university.jala.capstonelegion.players.GameCharacter;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class PrintManager {
-
-    public PrintManager() {
-
-    }
 
     public void print(Object [][] fields, Object type) {
         for (int i = 0; i < fields.length; i++) {

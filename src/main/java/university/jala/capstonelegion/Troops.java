@@ -5,11 +5,11 @@ import university.jala.capstonelegion.errors.RuntimeParameterExceptionWithMessag
 public class Troops {
     public static void main(String[] args) throws RuntimeParameterExceptionWithMessage {
         TroopsManager troopsManager = new TroopsManager();
-        troopsManager.VerifyParameters(args);
-        if (troopsManager.ProcessParameters()) {
+        troopsManager.verifyParameters(args);
+        if (troopsManager.processParameters()) {
             troopsManager.representationOfBattlefield();
-            troopsManager.AssignRandomTroops();
-            troopsManager.OrderByAlgorithm();
+            troopsManager.assignRandomTroops();
+            troopsManager.orderByAlgorithm();
         }
 
     }

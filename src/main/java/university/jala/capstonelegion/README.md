@@ -1,4 +1,4 @@
-Requisitos del Proyecto
+Requisitos finales del Proyecto
 
  Modelado de tropas con clases e interfaces.
  Implementación de ordenamientos por atributos personalizables.
@@ -12,3 +12,25 @@ Requisitos del Proyecto
 Se requiere incluir el diagrama de clases UML, documentación del código
 y mostrar al usuario el tiempo total transcurrido para ordenar las tropas
 según el algoritmo elegido.
+
+Para este proyecto decidí utilizar la arquitectura Project Object Model (POM), me pareció la más
+adecuada para este proyecto. 
+
+---- MIDDLE CAPSTONE ----
+
+Parámetros:
+
+a(algoritmo), para esta instancia solo es válido a=i, ya que solo se debe presentar la implementación
+de un algoritmo. Próximamente se implementarán el resto ubicado en "enums".
+t=c/n este parámetro es válido para dos valores "c" o "n" y se refiere a la representación por 
+números o caracteres.
+u=[int array] este array de enteros permite colocar el tipo de tropas, su alterno es el parámetro
+r con la misma función, ejemplo.
+u[0] = comandante
+u[1] = médicos
+u[2] = tanques
+u[3] = Snipers
+u[4] = Infantry unit
+
+Ejemplo de implementación "a=i t=c u=1,3,4,5,6"
+
