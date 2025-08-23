@@ -37,8 +37,34 @@ public class TroopOrdering implements Algorithm {
             }
             orderArray[j + 1] = troop;
         }
-        return addOrientation(orientation, rows, columns ,fields, orderArray);
 
+        Object[][] lastMatrix = checkTroopType(rows, columns, orderArray, type);
+
+        Object[] groupedArray = flattenMatrix(rows, columns, lastMatrix);
+
+        return addOrientation(orientation, rows, columns, lastMatrix, groupedArray);
+    }
+    public Object[][] checkTroopType(
+            int rows,
+            int columns,
+            Object[] orderArray,
+            Object type
+        ){
+        Object[][] grouped = new Object[rows][columns];
+        int r = 0, c = 0;
+        Object prev = null;
+
+        for (Object troop : orderArray) {
+            if (troop == null) continue;
+            if (prev != null && compare(prev, troop, type) != 0) {
+                r++; c = 0;
+            }
+            if (r >= rows) break;
+            if (c >= columns) { r++; c = 0; if (r >= rows) break; }
+            grouped[r][c++] = troop;
+            prev = troop;
+        }
+        return grouped;
     }
 
     public Object[][] orderByBubbleSort(
@@ -65,7 +91,11 @@ public class TroopOrdering implements Algorithm {
                 fields[i][j] = orderArray[index++];
             }
         }
-        return addOrientation(orientation, rows, columns ,fields, orderArray);
+        Object[][] lastMatrix = checkTroopType(rows, columns, orderArray, parameterType);
+
+        Object[] groupedArray = flattenMatrix(rows, columns, lastMatrix);
+
+        return addOrientation(orientation, rows, columns, lastMatrix, groupedArray);
 
     }
 
@@ -96,7 +126,11 @@ public class TroopOrdering implements Algorithm {
                 fields[i][j] = orderArray[index++];
             }
         }
-        return addOrientation(orientation, rows, columns ,fields, orderArray);
+        Object[][] lastMatrix = checkTroopType(rows, columns, orderArray, parameterType);
+
+        Object[] groupedArray = flattenMatrix(rows, columns, lastMatrix);
+
+        return addOrientation(orientation, rows, columns, lastMatrix, groupedArray);
     }
 
     private void makeHeap(Object[] array, int n, int i, Object type) {

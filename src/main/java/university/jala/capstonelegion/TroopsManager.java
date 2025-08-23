@@ -17,7 +17,7 @@ public class TroopsManager {
     private final CharacterFactory characterFactory;
     private final TroopOrdering troopOrdering;
 
-   // private List<Troops> troops;
+
     private AlgorithmEnum algorithm;
     private Object parameterType;
     private OrientationType orientation;
@@ -30,7 +30,6 @@ public class TroopsManager {
 
     public TroopsManager() {
         this.characterFactory = new CharacterFactory();
-        // this.troops = null;
         this.algorithm = null;
         this.parameterType = null;
         this.orientation = null;

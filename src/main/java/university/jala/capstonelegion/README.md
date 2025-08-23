@@ -19,6 +19,7 @@ adecuada para este proyecto.
 ---- MIDDLE CAPSTONE ----
 
 Parámetros:
+Ejemplo: a=i t=N o=w r=1,1,2,3,5 f=6
 
 a(algoritmo), para esta instancia solo es válido a=i, ya que solo se debe presentar la implementación
 de un algoritmo. Próximamente se implementarán el resto ubicado en "enums".
@@ -33,4 +34,12 @@ u[3] = Snipers
 u[4] = Infantry unit
 
 Ejemplo de implementación "a=i t=c u=1,3,4,5,6"
+
+"o"; Este parámetro otorga orientación al ordenamiento, se pueden seleccionar entre los siguientes:
+
+SOUTH_TO_NORTH ("n"),
+NORTH_TO_SOUTH("s"),
+EAST_TO_WEST("w"),
+WEST_TO_EAST("e");
+
 
