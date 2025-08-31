@@ -1,159 +1,122 @@
 package university.jala.capstonelegion;
 
-import university.jala.capstonelegion.players.GameCharacter;
+import university.jala.capstonelegion.algorithm.*;
+import university.jala.capstonelegion.enums.AlgorithmEnum;
+import university.jala.capstonelegion.enums.OrientationType;
 
-public class TroopOrdering implements Algorithm {
-    private static int compare(Object troop1, Object troop2, Object characterOrNumber) {
-        if (troop1 == null && troop2 == null) return 0;
-        if (troop1 == null) return 1;
-        if (troop2 == null) return -1;
 
-        if (troop1 instanceof GameCharacter troopCompare1 && troop2 instanceof GameCharacter troopCompare2) {
-            if (characterOrNumber.equals("c")) {
-                return Integer.compare(troopCompare1.getSymbol(), troopCompare2.getSymbol());
-            } else if (characterOrNumber.equals("n")) {
-                return Integer.compare(troopCompare1.getNumberSymbol(), troopCompare2.getNumberSymbol());
-            }
+public class TroopOrdering extends Compare {
+    private final MergeSort mergeSort;
+    private final QuickSort quickSort;
+    private final Insertion insertion;
+    private final BubbleSort bubbleSort;
 
-        }
-        return 0;
+    public TroopOrdering() {
+        this.mergeSort = new MergeSort();
+        this.quickSort = new QuickSort();
+        this.insertion = new Insertion();
+        this.bubbleSort = new BubbleSort();
     }
 
-    public Object[][] orderByInsertion(
+    public Object[][] prepareToOrder(
+            AlgorithmEnum algorithm,
             int rows, int columns,
             Object[][] fields,
             Object type,
-            String orientation) {
+            String orientation
+    ) {
+        Object[] flattenArray = flattenMatrix(rows, columns, fields);
+        System.out.println("\n" + "Ordering By algorithm: " + algorithm + "\n");
+        switch (algorithm) {
+            case INSERTION_SORT -> {
+                flattenArray = insertion.orderByInsertion(flattenArray, type);
 
-        Object[] orderArray = flattenMatrix(rows, columns, fields);
+                Object[][] lastMatrix = checkTroopType(rows, columns, flattenArray, type);
 
-        for (int i = 1; i < orderArray.length; i++) {
-            Object troop = orderArray[i];
-            int j = i - 1;
+                Object[] groupedArray = flattenMatrix(rows, columns, lastMatrix);
 
-            while (j >= 0 && compare(orderArray[j], troop, type) > 0) {
-                orderArray[j + 1] = orderArray[j];
-                j--;
+                return addOrientation(orientation, rows, columns, lastMatrix, groupedArray);
+
             }
-            orderArray[j + 1] = troop;
+            case BUBBLE_SORT -> {
+                flattenArray = bubbleSort.orderByBubbleSort(flattenArray, type);
+
+                int index = 0;
+                for (int i = 0; i < rows; i++) {
+                    for (int j = 0; j < columns; j++) {
+                        fields[i][j] = flattenArray[index++];
+                    }
+                }
+
+                Object[][] lastMatrix = checkTroopType(rows, columns, flattenArray, type);
+
+                Object[] groupedArray = flattenMatrix(rows, columns, lastMatrix);
+
+                return addOrientation(orientation, rows, columns, lastMatrix, groupedArray);
+
+            }
+            case MERGE_SORT -> {
+                flattenArray = mergeSort.orderByMergeSort(flattenArray, type);
+
+                Object[][] lastMatrix = checkTroopType(rows, columns, flattenArray, type);
+
+                Object[] groupedArray = flattenMatrix(rows, columns, lastMatrix);
+
+                return addOrientation(orientation, rows, columns, lastMatrix, groupedArray);
+
+
+            }
+            case QUICK_SORT -> {
+                flattenArray = quickSort.orderByQuickSort(flattenArray, type);
+
+                int index = 0;
+                for (int i = 0; i < rows; i++) {
+                    for (int j = 0; j < columns; j++) {
+                        fields[i][j] = flattenArray[index++];
+                    }
+                }
+                Object[][] lastMatrix = checkTroopType(rows, columns, flattenArray, type);
+
+                Object[] groupedArray = flattenMatrix(rows, columns, lastMatrix);
+
+                return addOrientation(orientation, rows, columns, lastMatrix, groupedArray);
+
+            }
+            default -> throw new IllegalArgumentException("Algorithm not supported : " + algorithm);
+
+
         }
 
-        Object[][] lastMatrix = checkTroopType(rows, columns, orderArray, type);
-
-        Object[] groupedArray = flattenMatrix(rows, columns, lastMatrix);
-
-        return addOrientation(orientation, rows, columns, lastMatrix, groupedArray);
     }
+
     public Object[][] checkTroopType(
             int rows,
             int columns,
             Object[] orderArray,
             Object type
-        ){
-        Object[][] grouped = new Object[rows][columns];
-        int r = 0, c = 0;
-        Object prev = null;
+    ) {
+        Object[][] checkMatrix = new Object[rows][columns];
+        int indexRow = 0, indexColumn = 0;
+        Object prevTroop = null;
 
         for (Object troop : orderArray) {
             if (troop == null) continue;
-            if (prev != null && compare(prev, troop, type) != 0) {
-                r++; c = 0;
+            if (prevTroop != null && compare(prevTroop, troop, type) != 0) {
+                indexRow++;
+                indexColumn = 0;
             }
-            if (r >= rows) break;
-            if (c >= columns) { r++; c = 0; if (r >= rows) break; }
-            grouped[r][c++] = troop;
-            prev = troop;
+            if (indexRow >= rows) break;
+            if (indexColumn >= columns) {
+                indexRow++;
+                indexColumn = 0;
+                if (indexRow >= rows) break;
+            }
+            checkMatrix[indexRow][indexColumn++] = troop;
+            prevTroop = troop;
         }
-        return grouped;
+        return checkMatrix;
     }
 
-    public Object[][] orderByBubbleSort(
-            int rows,
-            int columns,
-            Object[][] fields,
-            Object parameterType,
-            String orientation) {
-
-        Object[] orderArray = flattenMatrix(rows, columns,fields);
-        int allTroopsInArray = orderArray.length;
-        for (int i = 0; i < allTroopsInArray - 1; i++) {
-            for (int j = 0; j < allTroopsInArray - 1 - i; j++) {
-                if (compare(orderArray[j], orderArray[j + 1], parameterType) > 0) {
-                    Object objectTroop = orderArray[j];
-                    orderArray[j] = orderArray[j + 1];
-                    orderArray[j + 1] = objectTroop;
-                }
-            }
-        }
-        int index = 0;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                fields[i][j] = orderArray[index++];
-            }
-        }
-        Object[][] lastMatrix = checkTroopType(rows, columns, orderArray, parameterType);
-
-        Object[] groupedArray = flattenMatrix(rows, columns, lastMatrix);
-
-        return addOrientation(orientation, rows, columns, lastMatrix, groupedArray);
-
-    }
-
-    public Object[][] orderByHeapSort(
-            int rows,
-            int columns,
-            Object[][] fields,
-            Object parameterType,
-            String orientation) {
-
-        Object[] orderArray = flattenMatrix(rows, columns, fields);
-        int allTroopsInArray = orderArray.length;
-
-        for (int i = allTroopsInArray / 2 - 1; i >= 0; i--) {
-            makeHeap(orderArray, allTroopsInArray, i, parameterType);
-        }
-
-        for (int i = allTroopsInArray - 1; i > 0; i--) {
-            Object temp = orderArray[0];
-            orderArray[0] = orderArray[i];
-            orderArray[i] = temp;
-
-            makeHeap(orderArray, i, 0, parameterType);
-        }
-        int index = 0;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                fields[i][j] = orderArray[index++];
-            }
-        }
-        Object[][] lastMatrix = checkTroopType(rows, columns, orderArray, parameterType);
-
-        Object[] groupedArray = flattenMatrix(rows, columns, lastMatrix);
-
-        return addOrientation(orientation, rows, columns, lastMatrix, groupedArray);
-    }
-
-    private void makeHeap(Object[] array, int n, int i, Object type) {
-        int largest = i;
-        int left = 2 * i + 1;
-        int right = 2 * i + 2;
-
-        if (left < n && compare(array[left], array[largest], type) > 0) {
-            largest = left;
-        }
-
-        if (right < n && compare(array[right], array[largest], type) > 0) {
-            largest = right;
-        }
-
-        if (largest != i) {
-            Object swap = array[i];
-            array[i] = array[largest];
-            array[largest] = swap;
-
-            makeHeap(array, n, largest, type);
-        }
-    }
 
     public Object[] flattenMatrix(int rows, int columns, Object[][] fields) {
         int total = rows * columns;
@@ -172,32 +135,33 @@ public class TroopOrdering implements Algorithm {
             String orientation,
             int rows,
             int columns,
-            Object [][] fields,
-            Object[] orderArray ) {
+            Object[][] fields,
+            Object[] orderArray) {
         int index = 0;
-        switch (orientation) {
-            case "s":
+        OrientationType key = OrientationType.fromOrientation(orientation);
+        switch (key) {
+            case NORTH_TO_SOUTH:
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < columns; j++) {
                         fields[i][j] = orderArray[index++];
                     }
                 }
                 return fields;
-            case "n":
+            case SOUTH_TO_NORTH:
                 for (int i = rows - 1; i >= 0; i--) {
                     for (int j = 0; j < columns; j++) {
                         fields[i][j] = orderArray[index++];
                     }
                 }
                 return fields;
-            case "e":
+            case WEST_TO_EAST:
                 for (int j = 0; j < columns; j++) {
                     for (int i = 0; i < rows; i++) {
                         fields[i][j] = orderArray[index++];
                     }
                 }
                 return fields;
-            case "w":
+            case EAST_TO_WEST:
                 for (int j = columns - 1; j >= 0; j--) {
                     for (int i = 0; i < rows; i++) {
                         fields[i][j] = orderArray[index++];

@@ -12,6 +12,15 @@ public enum OrientationType {
         this.orientation = orientation;
     }
 
+    public static OrientationType fromOrientation(String param) {
+        for (OrientationType orientationType : values()) {
+            if (orientationType.orientation.equalsIgnoreCase(param)) {
+                return orientationType;
+            }
+        }
+        throw new IllegalArgumentException("Algoritmo desconocido: " + param);
+    }
+
     public String getOrientation() {
         return orientation;
     }

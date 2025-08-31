@@ -43,3 +43,6 @@ EAST_TO_WEST("w"),
 WEST_TO_EAST("e");
 
 
+----- Principios aplicados ------
+Replace Magic Strings with Enum (Reemplazar cadenas mágicas con enumeraciones).
+También entra dentro del principio "Use Meaningful Names" de Clean Code.

@@ -2,6 +2,7 @@ package university.jala.capstonelegion;
 
 import university.jala.capstonelegion.enums.AlgorithmEnum;
 import university.jala.capstonelegion.enums.OrientationType;
+import university.jala.capstonelegion.enums.ParamsType;
 import university.jala.capstonelegion.errors.RuntimeParameterException;
 import university.jala.capstonelegion.errors.RuntimeParameterExceptionWithMessage;
 import university.jala.capstonelegion.players.CharacterFactory;
@@ -16,8 +17,8 @@ public class TroopsManager {
     private final PrintManager printManager;
     private final CharacterFactory characterFactory;
     private final TroopOrdering troopOrdering;
-
-
+    int[] arrayNumber;
+    boolean invalidParameters = false;
     private AlgorithmEnum algorithm;
     private Object parameterType;
     private OrientationType orientation;
@@ -25,9 +26,7 @@ public class TroopsManager {
     private Object[][] matriz;
     private int rows;
     private int columns;
-    private HashMap<String, Object> parameters;
-
-
+    private final HashMap<String, Object> parameters;
     public TroopsManager() {
         this.characterFactory = new CharacterFactory();
         this.algorithm = null;
@@ -42,9 +41,6 @@ public class TroopsManager {
 
     }
 
-    int[] arrayNumber;
-    boolean invalidParameters = false;
-
     public void verifyParameters(String[] args) throws RuntimeParameterExceptionWithMessage {
         try {
             for (String arg : args) {
@@ -52,18 +48,17 @@ public class TroopsManager {
                 if (parts.length == 2) {
                     String key = parts[0];
                     String value = parts[1];
-
-                    switch (key) {
-                        case "a":
+                    ParamsType paramsType = ParamsType.fromParam(key);
+                    switch (paramsType) {
+                        case ALGORITHM:
                             if (validator.isString(value)) {
-
                                 String algorithm = value.toLowerCase();
                                 switch (algorithm) {
                                     case "i" -> this.algorithm = AlgorithmEnum.INSERTION_SORT;
-                                    case "s" -> this.algorithm = AlgorithmEnum.SORT;
+                                    case "m" -> this.algorithm = AlgorithmEnum.MERGE_SORT;
                                     case "b" -> this.algorithm = AlgorithmEnum.BUBBLE_SORT;
-                                    case "h" -> this.algorithm = AlgorithmEnum.HEAP_SORT;
-
+                                    case "q" -> this.algorithm = AlgorithmEnum.QUICK_SORT;
+                                    default -> invalidParameters = true;
                                 }
                                 parameters.put("algorithm", algorithm);
                             } else {
@@ -72,7 +67,7 @@ public class TroopsManager {
                             }
                             break;
 
-                        case "t":
+                        case TYPE_OF_REPRESENTATION:
                             if (validator.isString(value)) {
                                 this.parameterType = value.toLowerCase();
                                 parameters.put("type", value);
@@ -82,7 +77,7 @@ public class TroopsManager {
                             }
                             break;
 
-                        case "u":
+                        case NUMBER_OF_TROOPS:
                             this.arrayNumber = validator.isNumberArray(value);
                             if (arrayNumber != null) {
                                 for (int j : arrayNumber) {
@@ -94,7 +89,7 @@ public class TroopsManager {
                                 System.out.println("[INVALID");
                             }
                             break;
-                        case "r":
+                        case NUMBER_OF_TROOPS2:
                             this.arrayNumber = validator.isNumberArray(value);
                             if (arrayNumber != null) {
                                 for (int j : arrayNumber) {
@@ -106,7 +101,7 @@ public class TroopsManager {
                                 System.out.println("[INVALID");
                             }
                             break;
-                        case "f":
+                        case SIZE_OF_BATTLEFIELDS:
                             try {
                                 int size = Integer.parseInt(value);
 
@@ -126,7 +121,7 @@ public class TroopsManager {
                                 invalidParameters = true;
                             }
                             break;
-                        case "o":
+                        case ORIENTATION:
                             if (validator.isString(value)) {
                                 switch (value.toLowerCase()) {
                                     case "n" -> this.orientation = OrientationType.SOUTH_TO_NORTH;
@@ -168,9 +163,7 @@ public class TroopsManager {
         List<Object> lista = new ArrayList<>();
 
         for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                lista.add(matriz[i][j]);
-            }
+            lista.addAll(Arrays.asList(matriz[i]).subList(0, columns));
         }
         Collections.shuffle(lista);
 
@@ -180,7 +173,7 @@ public class TroopsManager {
                 matriz[i][j] = lista.get(index++);
             }
         }
-        printManager.print(matriz,parameterType);
+        printManager.print(matriz, parameterType);
     }
 
     public void representationOfBattlefield() {
@@ -192,17 +185,17 @@ public class TroopsManager {
         if (!(algorithmName == null)) {
             for (String key : valParameters.keySet()) {
                 if (key.equals("troops")) {
-                    System.out.println("Troops: [" + (int) valParameters.get(key) + "]\n");
+                    System.out.println("Troops: [" + valParameters.get(key) + "]\n");
                 } else if (key.equals("type") && valParameters.get("type").equals("c")) {
                     System.out.println("Type: [Character]");
-                } else if (key.equals("type") && valParameters.get("type").equals("n"))  {
+                } else if (key.equals("type") && valParameters.get("type").equals("n")) {
                     System.out.println("Type: [Number]");
                 } else if (key.equals("algorithm")) {
-                    System.out.println("Algorithm: [" + algorithmName + "]" );
+                    System.out.println("Algorithm: [" + algorithmName + "]");
                 } else if (key.equals("orientation")) {
-                    System.out.println("\nOrientation: [" + orientation + "]" );
+                    System.out.println("\nOrientation: [" + orientation + "]");
                 } else if (key.equals("Battlefield")) {
-                    System.out.println("Battlefield: [" + (int) valParameters.get(key) + "]" );
+                    System.out.println("Battlefield: [" + valParameters.get(key) + "]");
                 }
 
             }
@@ -226,46 +219,19 @@ public class TroopsManager {
         }
 
     }
-    /*
-        The algorithm discussed will be implemented in the future.
-        (@Link: orderByAlgorithm)
-            MERGE_SORT
-     */
 
     public void orderByAlgorithm() {
-        switch (this.algorithm) {
-            case INSERTION_SORT -> {
-                System.out.println("\nOrdering Insertion Sort...\n");
-                this.matriz = troopOrdering.orderByInsertion(
-                        rows,
-                        columns,
-                        matriz,
-                        parameterType,
-                        orientation.getOrientation());
-            }
-            case BUBBLE_SORT ->{
-                System.out.println("\nOrdering by Bubble Sort...\n");
-                this.matriz = troopOrdering.orderByBubbleSort(
-                        rows,
-                        columns,
-                        matriz,
-                        parameterType,
-                        orientation.getOrientation());
-            }
-            case HEAP_SORT -> {
-                System.out.println("\nOrdering by Heap sort...\n");
-                troopOrdering.orderByHeapSort(
-                        rows,
-                        columns,
-                        matriz,
-                        parameterType,
-                        orientation.getOrientation());
-            }
-            default -> {
-                this.algorithm = null;
-                System.out.println("[Invalid]");
-            }
-
+        if (this.algorithm != null) {
+            this.matriz = troopOrdering.prepareToOrder(
+                    algorithm,
+                    rows,
+                    columns,
+                    matriz,
+                    parameterType,
+                    orientation.getOrientation());
+        } else {
+            invalidParameters = true;
+            System.out.println("[Invalid]");
         }
         printManager.print(this.matriz, parameterType);
     }
