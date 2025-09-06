@@ -1,26 +1,23 @@
 package university.jala.capstonelegion.players;
 
-import university.jala.capstonelegion.enums.CharacterSymbol;
+public class GameCharacter {
+    private final String name;
+    private final char symbol;
+    private final int symbol2;
 
-public abstract class GameCharacter {
-    protected String name;
-    protected int live;
-    protected int speed;
-    protected int force;
-    protected int rank;
-    protected char symbol;
-    protected int symbol2;
-
-    public GameCharacter(String name, int live, int speed, int force, int rank, CharacterSymbol symbol) {
+    public GameCharacter(String name, char symbol, int symbol2) {
         this.name = name;
-        this.live = live;
-        this.speed = speed;
-        this.force = force;
-        this.rank = rank;
-        this.symbol = symbol.getSymbol();
-        this.symbol2 = symbol.getNumberSymbol();
+        this.symbol = symbol;
+        this.symbol2 = symbol2;
+    }
+    public String getName() {
+        return name;
     }
 
+    @Override
+    public String toString() {
+        return name + " (" + symbol + ")";
+    }
     public char getSymbol() {
         return symbol;
     }

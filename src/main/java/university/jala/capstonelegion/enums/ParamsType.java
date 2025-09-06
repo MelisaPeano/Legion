@@ -6,7 +6,8 @@ public enum ParamsType {
     TYPE_OF_REPRESENTATION("t"),
     NUMBER_OF_TROOPS("u"),
     NUMBER_OF_TROOPS2("r"),
-    SIZE_OF_BATTLEFIELDS("f");
+    SIZE_OF_BATTLEFIELDS("f"),
+    SPEED("s");
 
     private final String param;
 

@@ -1,4 +1,4 @@
-package university.jala.capstonelegion.algorithm;
+package university.jala.capstonelegion.sortStrategy;
 
 import university.jala.capstonelegion.players.GameCharacter;
 

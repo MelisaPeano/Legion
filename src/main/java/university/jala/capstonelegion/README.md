@@ -14,35 +14,44 @@ y mostrar al usuario el tiempo total transcurrido para ordenar las tropas
 según el algoritmo elegido.
 
 Para este proyecto decidí utilizar la arquitectura Project Object Model (POM), me pareció la más
-adecuada para este proyecto. 
-
----- MIDDLE CAPSTONE ----
+adecuada para lograr que este proyecto se pueda reutilizar código. 
 
 Parámetros:
-Ejemplo: a=i t=N o=w r=1,1,2,3,5 f=6
+Ejemplo: a=i t=N o=w r=1,1,2,3,5 f=6 s=1000
 
-a(algoritmo), para esta instancia solo es válido a=i, ya que solo se debe presentar la implementación
-de un algoritmo. Próximamente se implementarán el resto ubicado en "enums".
-t=c/n este parámetro es válido para dos valores "c" o "n" y se refiere a la representación por 
-números o caracteres.
-u=[int array] este array de enteros permite colocar el tipo de tropas, su alterno es el parámetro
-r con la misma función, ejemplo.
+"a"(algoritmo):
+    Valores válidos a=i/I, a=b/B, a=q/Q.
+    Si el valor no es válido, se modifica una variable global que marca todos los parámetros como inválidos,
+    ocurriendo lo mismo con los demás parámetros.
+"t"(Tipo de parámetro) 
+    Valores válidos t=c/n 
+    Este parámetro es válido para dos valores "c" o "n" y se refiere a la representación por 
+    números o caracteres.
+"u"=[int array] este array de enteros permite colocar el tipo de tropas, su alterno es el parámetro
+"r" con la misma función, ejemplo.
 u[0] = comandante
 u[1] = médicos
 u[2] = tanques
 u[3] = Snipers
 u[4] = Infantry unit
 
-Ejemplo de implementación "a=i t=c u=1,3,4,5,6"
+Ejemplo de implementación u=1,3,4,5,6
 
-"o"; Este parámetro otorga orientación al ordenamiento, se pueden seleccionar entre los siguientes:
+"o"(Orientation)
+    Este parámetro otorga orientación al ordenamiento, se pueden seleccionar entre los siguientes:
+    SOUTH_TO_NORTH ("n"),
+    NORTH_TO_SOUTH("s"),
+    EAST_TO_WEST("w"),
+    WEST_TO_EAST("e");
+"s"(speed)
+    Este parámetro permite agregar un tiempo de "delay" a la ejecución.
+    Al final se mostrará el tiempo que tarda en ejecutarse el algoritmo sin contar el delay agregado.
 
-SOUTH_TO_NORTH ("n"),
-NORTH_TO_SOUTH("s"),
-EAST_TO_WEST("w"),
-WEST_TO_EAST("e");
-
-
------ Principios aplicados ------
+----- Buenas prácticas aplicadas  ------
 Replace Magic Strings with Enum (Reemplazar cadenas mágicas con enumeraciones).
 También entra dentro del principio "Use Meaningful Names" de Clean Code.
+-----------------------------------------------------------------------------------------------------
+Patrón de diseño "Facade" mostrando solo al cliente la ejecución de troopManager.play() y manteniendo
+la lógica oculta detrás.
+----------------------------------------------------------------------------------------------------
+

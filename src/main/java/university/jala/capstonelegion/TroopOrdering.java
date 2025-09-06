@@ -1,21 +1,19 @@
 package university.jala.capstonelegion;
 
-import university.jala.capstonelegion.algorithm.*;
+import university.jala.capstonelegion.sortStrategy.*;
 import university.jala.capstonelegion.enums.AlgorithmEnum;
 import university.jala.capstonelegion.enums.OrientationType;
-
+import university.jala.capstonelegion.sortStrategy.factory.SortStrategyFactory;
 
 public class TroopOrdering extends Compare {
-    private final MergeSort mergeSort;
-    private final QuickSort quickSort;
-    private final Insertion insertion;
-    private final BubbleSort bubbleSort;
+    private final QuickSortStrategy quickSortStrategy;
+    private final InsertionSortStrategy insertionSortStrategy;
+    private final BubbleSortStrategy bubbleSortStrategy;
 
     public TroopOrdering() {
-        this.mergeSort = new MergeSort();
-        this.quickSort = new QuickSort();
-        this.insertion = new Insertion();
-        this.bubbleSort = new BubbleSort();
+        this.quickSortStrategy = new QuickSortStrategy();
+        this.insertionSortStrategy = new InsertionSortStrategy();
+        this.bubbleSortStrategy = new BubbleSortStrategy();
     }
 
     public Object[][] prepareToOrder(
@@ -23,69 +21,28 @@ public class TroopOrdering extends Compare {
             int rows, int columns,
             Object[][] fields,
             Object type,
-            String orientation
+            String orientation,
+            int speed
     ) {
         Object[] flattenArray = flattenMatrix(rows, columns, fields);
         System.out.println("\n" + "Ordering By algorithm: " + algorithm + "\n");
-        switch (algorithm) {
-            case INSERTION_SORT -> {
-                flattenArray = insertion.orderByInsertion(flattenArray, type);
 
-                Object[][] lastMatrix = checkTroopType(rows, columns, flattenArray, type);
+        SortStrategy strategy = SortStrategyFactory.getStrategy(algorithm);
+        flattenArray = strategy.sort(flattenArray, type, rows, columns,speed);
+        System.out.println("Interactions of ordering with " + algorithm + ": "+ strategy.getTimeOfOrdering());
 
-                Object[] groupedArray = flattenMatrix(rows, columns, lastMatrix);
-
-                return addOrientation(orientation, rows, columns, lastMatrix, groupedArray);
-
+        // reconstruyo matriz
+        int index = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                fields[i][j] = flattenArray[index++];
             }
-            case BUBBLE_SORT -> {
-                flattenArray = bubbleSort.orderByBubbleSort(flattenArray, type);
-
-                int index = 0;
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < columns; j++) {
-                        fields[i][j] = flattenArray[index++];
-                    }
-                }
-
-                Object[][] lastMatrix = checkTroopType(rows, columns, flattenArray, type);
-
-                Object[] groupedArray = flattenMatrix(rows, columns, lastMatrix);
-
-                return addOrientation(orientation, rows, columns, lastMatrix, groupedArray);
-
-            }
-            case MERGE_SORT -> {
-                flattenArray = mergeSort.orderByMergeSort(flattenArray, type);
-
-                Object[][] lastMatrix = checkTroopType(rows, columns, flattenArray, type);
-
-                Object[] groupedArray = flattenMatrix(rows, columns, lastMatrix);
-
-                return addOrientation(orientation, rows, columns, lastMatrix, groupedArray);
-
-
-            }
-            case QUICK_SORT -> {
-                flattenArray = quickSort.orderByQuickSort(flattenArray, type);
-
-                int index = 0;
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < columns; j++) {
-                        fields[i][j] = flattenArray[index++];
-                    }
-                }
-                Object[][] lastMatrix = checkTroopType(rows, columns, flattenArray, type);
-
-                Object[] groupedArray = flattenMatrix(rows, columns, lastMatrix);
-
-                return addOrientation(orientation, rows, columns, lastMatrix, groupedArray);
-
-            }
-            default -> throw new IllegalArgumentException("Algorithm not supported : " + algorithm);
-
-
         }
+
+        Object[][] lastMatrix = checkTroopType(rows, columns, flattenArray, type);
+        Object[] groupedArray = flattenMatrix(rows, columns, lastMatrix);
+
+        return addOrientation(orientation, rows, columns, lastMatrix, groupedArray);
 
     }
 

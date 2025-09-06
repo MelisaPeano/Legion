@@ -26,7 +26,10 @@ public class TroopsManager {
     private Object[][] matriz;
     private int rows;
     private int columns;
+    private int speed;
     private final HashMap<String, Object> parameters;
+
+
     public TroopsManager() {
         this.characterFactory = new CharacterFactory();
         this.algorithm = null;
@@ -38,9 +41,20 @@ public class TroopsManager {
         this.validator = new Validator();
         this.troopOrdering = new TroopOrdering();
         this.parameters = new HashMap<>();
-
+        this.speed = 0;
     }
 
+    public void play(String [] args) throws RuntimeParameterExceptionWithMessage {
+        verifyParameters(args);
+        if (processParameters()) {
+            representationOfBattlefield();
+            assignRandomTroops();
+            orderByAlgorithm();
+        }
+    }
+/*
+Strategy
+ */
     public void verifyParameters(String[] args) throws RuntimeParameterExceptionWithMessage {
         try {
             for (String arg : args) {
@@ -70,7 +84,7 @@ public class TroopsManager {
                         case TYPE_OF_REPRESENTATION:
                             if (validator.isString(value)) {
                                 this.parameterType = value.toLowerCase();
-                                parameters.put("type", value);
+                                parameters.put("type", this.parameterType);
                             } else {
                                 invalidParameters = true;
                                 System.out.println("[INVALID]");
@@ -83,7 +97,7 @@ public class TroopsManager {
                                 for (int j : arrayNumber) {
                                     units += j;
                                 }
-                                parameters.put("troops ", units);
+                                parameters.put("troops", units);
                             } else {
                                 invalidParameters = true;
                                 System.out.println("[INVALID");
@@ -95,7 +109,7 @@ public class TroopsManager {
                                 for (int j : arrayNumber) {
                                     units += j;
                                 }
-                                parameters.put("troops:", units);
+                                parameters.put("troops", units);
                             } else {
                                 invalidParameters = true;
                                 System.out.println("[INVALID");
@@ -131,7 +145,11 @@ public class TroopsManager {
                                 }
                                 parameters.put("orientation", this.orientation);
                             }
-
+                        case SPEED:
+                            if(Integer.parseInt(value) > 200 && Integer.parseInt(value) < 10000) {
+                                this.speed = Integer.parseInt(value);
+                                parameters.put("speed", value);
+                            }
                     }
                 }
 
@@ -141,6 +159,7 @@ public class TroopsManager {
             System.out.println("Type: [INVALID]");
             System.out.println("Troops: [INVALID]");
             System.out.println("Orientation: [INVALID]");
+            System.out.println("Speed: [INVALID]");
             System.out.println("\nInvalid parameters:");
             throw new RuntimeParameterExceptionWithMessage(e.getMessage());
         }
@@ -196,6 +215,8 @@ public class TroopsManager {
                     System.out.println("\nOrientation: [" + orientation + "]");
                 } else if (key.equals("Battlefield")) {
                     System.out.println("Battlefield: [" + valParameters.get(key) + "]");
+                } else if (key.equals("speed")) {
+                    System.out.println("Speed: [" + valParameters.get(key) + "]");
                 }
 
             }
@@ -228,7 +249,8 @@ public class TroopsManager {
                     columns,
                     matriz,
                     parameterType,
-                    orientation.getOrientation());
+                    orientation.getOrientation()),
+                    speed;
         } else {
             invalidParameters = true;
             System.out.println("[Invalid]");
