@@ -10,8 +10,3 @@ public class Troops {
         troopsManager.play(args);
     }
 }
-
-
-// agregar impresion para los demás algoritmos
-// sumar el parámetro s
-// agregar el conteo de tiempo.

@@ -1,14 +1,17 @@
 package university.jala.capstonelegion.sortStrategy;
 
 public interface SortStrategy {
+
     Object[] sort(Object[] array, Object type, int rows, int columns, int speed);
-    default Object[][] toMatrixCopy(Object[] flat, int rows, int columns) {
-        Object[][] m = new Object[rows][columns];
-        for (int idx = 0; idx < flat.length; idx++) {
-            m[idx / columns][idx % columns] = flat[idx];
+
+    default Object[][] toMatrixCopy(Object[] flatArray, int rows, int columns) {
+        Object[][] copyMatrix = new Object[rows][columns];
+        for (int index = 0; index < flatArray.length; index++) {
+            copyMatrix[index / columns][index % columns] = flatArray[index];
         }
-        return m;
+        return copyMatrix;
     }
+
     int getTimeOfOrdering();
-    void setTimeOfOrdering(int time);
+
 }

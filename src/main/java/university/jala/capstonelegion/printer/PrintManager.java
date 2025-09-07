@@ -7,9 +7,7 @@ import java.util.List;
 public class PrintManager {
 
     public void print(Object input, Object type) {
-        if (input instanceof List<?>) {
-            // Si es una lista de matrices
-            List<?> list = (List<?>) input;
+        if (input instanceof List<?> list) {
             for (Object item : list) {
                 if (item instanceof Object[][]) {
                     printMatrix((Object[][]) item, type);
@@ -17,10 +15,9 @@ public class PrintManager {
                 }
             }
         } else if (input instanceof Object[][]) {
-            // Si es una sola matriz
             printMatrix((Object[][]) input, type);
         } else {
-            System.out.println("El parámetro no es válido. Debe ser Object[][] o List<Object[][]>.");
+            System.out.println("Invalid input");
         }
     }
 
@@ -28,8 +25,7 @@ public class PrintManager {
         for (int i = 0; i < fields.length; i++) {
             for (int j = 0; j < fields[0].length; j++) {
                 Object field = fields[i][j];
-                if (field instanceof GameCharacter) {
-                    GameCharacter ch = (GameCharacter) field;
+                if (field instanceof GameCharacter ch) {
                     if (type.equals("c")) {
                         System.out.print(ch.getSymbol() + "\t");
                     } else {

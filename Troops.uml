@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>university.jala.capstonelegion.Troops</OriginalElement>
+  <nodes>
+    <node x="304.0" y="669.0">university.jala.capstonelegion.players.Medic</node>
+    <node x="143.0" y="868.0">university.jala.capstonelegion.enums.AlgorithmEnum</node>
+    <node x="3208.5" y="892.0">university.jala.capstonelegion.sortStrategy.QuickSortStrategy</node>
+    <node x="2791.5" y="916.0">university.jala.capstonelegion.sortStrategy.BubbleSortStrategy</node>
+    <node x="583.5" y="669.0">university.jala.capstonelegion.players.Sniper</node>
+    <node x="1743.5" y="1389.5">university.jala.capstonelegion.TroopsManager</node>
+    <node x="2632.5" y="1276.5">university.jala.capstonelegion.sortStrategy.factory.SortStrategyFactory</node>
+    <node x="-100.5" y="989.0">university.jala.capstonelegion.players.Infantry</node>
+    <node x="3253.5" y="225.0">university.jala.capstonelegion.sortStrategy.SortStrategy</node>
+    <node x="1138.5" y="669.0">university.jala.capstonelegion.players.AntiAircraftUnit</node>
+    <node x="1957.5" y="2071.0">university.jala.capstonelegion.Troops</node>
+    <node x="1625.0" y="615.0">university.jala.capstonelegion.TroopOrdering</node>
+    <node x="617.5" y="164.0">university.jala.capstonelegion.players.GameCharacter</node>
+    <node x="427.0" y="989.0">university.jala.capstonelegion.players.Commander</node>
+    <node x="2398.5" y="916.0">university.jala.capstonelegion.sortStrategy.InsertionSortStrategy</node>
+    <node x="2822.0" y="1516.0">university.jala.capstonelegion.enums.ParamsType</node>
+    <node x="3074.5" y="-20.0">university.jala.capstonelegion.sortStrategy.TimeManagerGame</node>
+    <node x="707.5" y="989.0">university.jala.capstonelegion.players.Tank</node>
+    <node x="818.5" y="560.0">university.jala.capstonelegion.enums.OrientationType</node>
+    <node x="21.0" y="669.0">university.jala.capstonelegion.players.Gunner</node>
+    <node x="1017.0" y="989.0">university.jala.capstonelegion.players.Engineer</node>
+    <node x="1276.0" y="952.5">university.jala.capstonelegion.Validator</node>
+    <node x="1964.0" y="976.5">university.jala.capstonelegion.players.CharacterFactory</node>
+    <node x="2532.0" y="224.5">university.jala.capstonelegion.printer.PrintManager</node>
+    <node x="1710.0" y="16.5">university.jala.capstonelegion.sortStrategy.Compare</node>
+    <node x="2497.0" y="1480.0">university.jala.capstonelegion.enums.CharacterSymbol</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="university.jala.capstonelegion.TroopsManager" target="university.jala.capstonelegion.enums.OrientationType" relationship="TO_ONE">
+      <point x="-65.75" y="-290.5" />
+      <point x="1809.25" y="1360.0" />
+      <point x="1395.0" y="1360.0" />
+      <point x="1395.0" y="1200.0" />
+      <point x="955.0" y="1200.0" />
+      <point x="0.0" y="140.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.players.Engineer" target="university.jala.capstonelegion.players.GameCharacter" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.0" />
+      <point x="1115.0" y="540.0" />
+      <point x="675.0" y="540.0" />
+      <point x="675.0" y="420.0" />
+      <point x="676.25" y="420.0" />
+      <point x="-58.75" y="116.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.factory.SortStrategyFactory" target="university.jala.capstonelegion.sortStrategy.InsertionSortStrategy" relationship="CREATE">
+      <point x="0.0" y="-43.5" />
+      <point x="2775.0" y="860.0" />
+      <point x="2619.125" y="860.0" />
+      <point x="44.125" y="-104.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.players.Gunner" target="university.jala.capstonelegion.players.GameCharacter" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.0" />
+      <point x="115.0" y="540.0" />
+      <point x="675.0" y="540.0" />
+      <point x="675.0" y="420.0" />
+      <point x="676.25" y="420.0" />
+      <point x="-58.75" y="116.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.InsertionSortStrategy" target="university.jala.capstonelegion.sortStrategy.Compare" relationship="GENERALIZATION">
+      <point x="-132.375" y="-104.0" />
+      <point x="2442.625" y="500.0" />
+      <point x="1835.0" y="500.0" />
+      <point x="0.0" y="43.5" />
+    </edge>
+    <edge source="university.jala.capstonelegion.TroopsManager" target="university.jala.capstonelegion.players.CharacterFactory" relationship="CREATE">
+      <point x="65.75" y="-290.5" />
+      <point x="1940.75" y="1360.0" />
+      <point x="1935.0" y="1360.0" />
+      <point x="1935.0" y="1120.0" />
+      <point x="2295.0" y="1120.0" />
+      <point x="2295.0" y="940.0" />
+      <point x="2115.0" y="940.0" />
+      <point x="0.0" y="-43.5" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.InsertionSortStrategy" target="university.jala.capstonelegion.sortStrategy.SortStrategy" relationship="REALIZATION">
+      <point x="132.375" y="-104.0" />
+      <point x="2707.375" y="820.0" />
+      <point x="3395.0" y="820.0" />
+      <point x="0.0" y="55.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.BubbleSortStrategy" target="university.jala.capstonelegion.printer.PrintManager" relationship="TO_ONE">
+      <point x="-45.875" y="-104.0" />
+      <point x="2929.125" y="800.0" />
+      <point x="2635.0" y="800.0" />
+      <point x="2635.0" y="380.0" />
+      <point x="2595.0" y="380.0" />
+      <point x="2595.0" y="360.0" />
+      <point x="2593.5" y="360.0" />
+      <point x="-61.5" y="55.5" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.QuickSortStrategy" target="university.jala.capstonelegion.printer.PrintManager" relationship="TO_ONE">
+      <point x="-41.625" y="-128.0" />
+      <point x="3333.375" y="780.0" />
+      <point x="2675.0" y="780.0" />
+      <point x="2675.0" y="760.0" />
+      <point x="2595.0" y="760.0" />
+      <point x="2595.0" y="360.0" />
+      <point x="2593.5" y="360.0" />
+      <point x="-61.5" y="55.5" />
+    </edge>
+    <edge source="university.jala.capstonelegion.Troops" target="university.jala.capstonelegion.TroopsManager" relationship="CREATE">
+      <point x="0.0" y="-49.0" />
+      <point x="2035.0" y="1340.0" />
+      <point x="1940.75" y="1340.0" />
+      <point x="65.75" y="-290.5" />
+    </edge>
+    <edge source="university.jala.capstonelegion.players.AntiAircraftUnit" target="university.jala.capstonelegion.players.GameCharacter" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.0" />
+      <point x="1255.0" y="540.0" />
+      <point x="675.0" y="540.0" />
+      <point x="675.0" y="420.0" />
+      <point x="676.25" y="420.0" />
+      <point x="-58.75" y="116.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.TroopsManager" target="university.jala.capstonelegion.TroopOrdering" relationship="CREATE">
+      <point x="65.75" y="-290.5" />
+      <point x="1940.75" y="1360.0" />
+      <point x="1935.0" y="1360.0" />
+      <point x="1935.0" y="1120.0" />
+      <point x="1940.0" y="1120.0" />
+      <point x="105.0" y="85.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.BubbleSortStrategy" target="university.jala.capstonelegion.sortStrategy.TimeManagerGame" relationship="TO_ONE">
+      <point x="-45.875" y="-104.0" />
+      <point x="2929.125" y="800.0" />
+      <point x="2635.0" y="800.0" />
+      <point x="2635.0" y="460.0" />
+      <point x="2675.0" y="460.0" />
+      <point x="2675.0" y="380.0" />
+      <point x="3124.75" y="380.0" />
+      <point x="-50.25" y="80.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.QuickSortStrategy" target="university.jala.capstonelegion.sortStrategy.TimeManagerGame" relationship="TO_ONE">
+      <point x="-41.625" y="-128.0" />
+      <point x="3333.375" y="780.0" />
+      <point x="2675.0" y="780.0" />
+      <point x="2675.0" y="380.0" />
+      <point x="3124.75" y="380.0" />
+      <point x="-50.25" y="80.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.BubbleSortStrategy" target="university.jala.capstonelegion.sortStrategy.TimeManagerGame" relationship="CREATE">
+      <point x="45.875" y="-104.0" />
+      <point x="3020.875" y="860.0" />
+      <point x="3015.0" y="860.0" />
+      <point x="3015.0" y="420.0" />
+      <point x="3235.0" y="420.0" />
+      <point x="3235.0" y="160.0" />
+      <point x="3225.25" y="160.0" />
+      <point x="50.25" y="80.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.players.CharacterFactory" target="university.jala.capstonelegion.players.GameCharacter" relationship="CREATE">
+      <point x="0.0" y="-43.5" />
+      <point x="2115.0" y="520.0" />
+      <point x="793.75" y="520.0" />
+      <point x="58.75" y="116.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.players.Medic" target="university.jala.capstonelegion.players.GameCharacter" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.0" />
+      <point x="395.0" y="540.0" />
+      <point x="675.0" y="540.0" />
+      <point x="675.0" y="420.0" />
+      <point x="676.25" y="420.0" />
+      <point x="-58.75" y="116.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.InsertionSortStrategy" target="university.jala.capstonelegion.sortStrategy.TimeManagerGame" relationship="CREATE">
+      <point x="44.125" y="-104.0" />
+      <point x="2619.125" y="880.0" />
+      <point x="2755.0" y="880.0" />
+      <point x="2755.0" y="400.0" />
+      <point x="3235.0" y="400.0" />
+      <point x="3235.0" y="160.0" />
+      <point x="3225.25" y="160.0" />
+      <point x="50.25" y="80.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.InsertionSortStrategy" target="university.jala.capstonelegion.printer.PrintManager" relationship="TO_ONE">
+      <point x="-44.125" y="-104.0" />
+      <point x="2530.875" y="880.0" />
+      <point x="2595.0" y="880.0" />
+      <point x="2595.0" y="360.0" />
+      <point x="2593.5" y="360.0" />
+      <point x="-61.5" y="55.5" />
+    </edge>
+    <edge source="university.jala.capstonelegion.TroopOrdering" target="university.jala.capstonelegion.sortStrategy.Compare" relationship="GENERALIZATION">
+      <point x="0.0" y="-85.0" />
+      <point x="0.0" y="43.5" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.BubbleSortStrategy" target="university.jala.capstonelegion.sortStrategy.Compare" relationship="GENERALIZATION">
+      <point x="-137.625" y="-104.0" />
+      <point x="2837.375" y="500.0" />
+      <point x="1835.0" y="500.0" />
+      <point x="0.0" y="43.5" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.QuickSortStrategy" target="university.jala.capstonelegion.sortStrategy.Compare" relationship="GENERALIZATION">
+      <point x="-124.875" y="-128.0" />
+      <point x="3250.125" y="500.0" />
+      <point x="1835.0" y="500.0" />
+      <point x="0.0" y="43.5" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.factory.SortStrategyFactory" target="university.jala.capstonelegion.sortStrategy.BubbleSortStrategy" relationship="CREATE">
+      <point x="0.0" y="-43.5" />
+      <point x="2775.0" y="1240.0" />
+      <point x="3175.0" y="1240.0" />
+      <point x="3175.0" y="880.0" />
+      <point x="3020.875" y="880.0" />
+      <point x="45.875" y="-104.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.players.Tank" target="university.jala.capstonelegion.players.GameCharacter" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.0" />
+      <point x="795.0" y="540.0" />
+      <point x="675.0" y="540.0" />
+      <point x="675.0" y="420.0" />
+      <point x="676.25" y="420.0" />
+      <point x="-58.75" y="116.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.TroopsManager" target="university.jala.capstonelegion.Validator" relationship="CREATE">
+      <point x="65.75" y="-290.5" />
+      <point x="1940.75" y="1360.0" />
+      <point x="1935.0" y="1360.0" />
+      <point x="1935.0" y="1120.0" />
+      <point x="1604.5" y="1120.0" />
+      <point x="109.5" y="67.5" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.InsertionSortStrategy" target="university.jala.capstonelegion.sortStrategy.TimeManagerGame" relationship="TO_ONE">
+      <point x="-44.125" y="-104.0" />
+      <point x="2530.875" y="880.0" />
+      <point x="2595.0" y="880.0" />
+      <point x="2595.0" y="420.0" />
+      <point x="2675.0" y="420.0" />
+      <point x="2675.0" y="380.0" />
+      <point x="3124.75" y="380.0" />
+      <point x="-50.25" y="80.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.players.Infantry" target="university.jala.capstonelegion.players.GameCharacter" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.0" />
+      <point x="-5.0" y="540.0" />
+      <point x="675.0" y="540.0" />
+      <point x="675.0" y="420.0" />
+      <point x="676.25" y="420.0" />
+      <point x="-58.75" y="116.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.TroopsManager" target="university.jala.capstonelegion.printer.PrintManager" relationship="TO_ONE">
+      <point x="-65.75" y="-290.5" />
+      <point x="1809.25" y="1360.0" />
+      <point x="1395.0" y="1360.0" />
+      <point x="1395.0" y="1200.0" />
+      <point x="2335.0" y="1200.0" />
+      <point x="2335.0" y="400.0" />
+      <point x="2595.0" y="400.0" />
+      <point x="2595.0" y="360.0" />
+      <point x="2593.5" y="360.0" />
+      <point x="-61.5" y="55.5" />
+    </edge>
+    <edge source="university.jala.capstonelegion.TroopsManager" target="university.jala.capstonelegion.TroopOrdering" relationship="TO_ONE">
+      <point x="-65.75" y="-290.5" />
+      <point x="1809.25" y="1360.0" />
+      <point x="1395.0" y="1360.0" />
+      <point x="1395.0" y="1200.0" />
+      <point x="1730.0" y="1200.0" />
+      <point x="-105.0" y="85.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.QuickSortStrategy" target="university.jala.capstonelegion.sortStrategy.TimeManagerGame" relationship="CREATE">
+      <point x="41.625" y="-128.0" />
+      <point x="3416.625" y="860.0" />
+      <point x="3235.0" y="860.0" />
+      <point x="3235.0" y="160.0" />
+      <point x="3225.25" y="160.0" />
+      <point x="50.25" y="80.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.TroopsManager" target="university.jala.capstonelegion.printer.PrintManager" relationship="CREATE">
+      <point x="65.75" y="-290.5" />
+      <point x="1940.75" y="1360.0" />
+      <point x="1935.0" y="1360.0" />
+      <point x="1935.0" y="1120.0" />
+      <point x="2375.0" y="1120.0" />
+      <point x="2375.0" y="480.0" />
+      <point x="2715.0" y="480.0" />
+      <point x="2715.0" y="360.0" />
+      <point x="2716.5" y="360.0" />
+      <point x="61.5" y="55.5" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.QuickSortStrategy" target="university.jala.capstonelegion.printer.PrintManager" relationship="CREATE">
+      <point x="41.625" y="-128.0" />
+      <point x="3416.625" y="860.0" />
+      <point x="3235.0" y="860.0" />
+      <point x="3235.0" y="440.0" />
+      <point x="2715.0" y="440.0" />
+      <point x="2715.0" y="360.0" />
+      <point x="2716.5" y="360.0" />
+      <point x="61.5" y="55.5" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.InsertionSortStrategy" target="university.jala.capstonelegion.printer.PrintManager" relationship="CREATE">
+      <point x="44.125" y="-104.0" />
+      <point x="2619.125" y="880.0" />
+      <point x="2755.0" y="880.0" />
+      <point x="2755.0" y="760.0" />
+      <point x="2715.0" y="760.0" />
+      <point x="2715.0" y="360.0" />
+      <point x="2716.5" y="360.0" />
+      <point x="61.5" y="55.5" />
+    </edge>
+    <edge source="university.jala.capstonelegion.players.Commander" target="university.jala.capstonelegion.players.GameCharacter" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.0" />
+      <point x="535.0" y="540.0" />
+      <point x="675.0" y="540.0" />
+      <point x="675.0" y="420.0" />
+      <point x="676.25" y="420.0" />
+      <point x="-58.75" y="116.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.TroopsManager" target="university.jala.capstonelegion.players.CharacterFactory" relationship="TO_ONE">
+      <point x="-65.75" y="-290.5" />
+      <point x="1809.25" y="1360.0" />
+      <point x="1395.0" y="1360.0" />
+      <point x="1395.0" y="1200.0" />
+      <point x="2115.0" y="1200.0" />
+      <point x="0.0" y="43.5" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.QuickSortStrategy" target="university.jala.capstonelegion.sortStrategy.SortStrategy" relationship="REALIZATION">
+      <point x="124.875" y="-128.0" />
+      <point x="3499.875" y="820.0" />
+      <point x="3395.0" y="820.0" />
+      <point x="0.0" y="55.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.TroopsManager" target="university.jala.capstonelegion.enums.AlgorithmEnum" relationship="TO_ONE">
+      <point x="-65.75" y="-290.5" />
+      <point x="1809.25" y="1360.0" />
+      <point x="1395.0" y="1360.0" />
+      <point x="1395.0" y="1200.0" />
+      <point x="255.0" y="1200.0" />
+      <point x="0.0" y="152.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.players.Sniper" target="university.jala.capstonelegion.players.GameCharacter" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.0" />
+      <point x="675.0" y="420.0" />
+      <point x="676.25" y="420.0" />
+      <point x="-58.75" y="116.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.BubbleSortStrategy" target="university.jala.capstonelegion.sortStrategy.SortStrategy" relationship="REALIZATION">
+      <point x="137.625" y="-104.0" />
+      <point x="3112.625" y="820.0" />
+      <point x="3395.0" y="820.0" />
+      <point x="0.0" y="55.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.factory.SortStrategyFactory" target="university.jala.capstonelegion.sortStrategy.QuickSortStrategy" relationship="CREATE">
+      <point x="0.0" y="-43.5" />
+      <point x="2775.0" y="1240.0" />
+      <point x="3575.0" y="1240.0" />
+      <point x="3575.0" y="840.0" />
+      <point x="3416.625" y="840.0" />
+      <point x="41.625" y="-128.0" />
+    </edge>
+    <edge source="university.jala.capstonelegion.TroopsManager" target="university.jala.capstonelegion.Validator" relationship="TO_ONE">
+      <point x="-65.75" y="-290.5" />
+      <point x="1809.25" y="1360.0" />
+      <point x="1395.0" y="1360.0" />
+      <point x="1395.0" y="1200.0" />
+      <point x="1385.5" y="1200.0" />
+      <point x="-109.5" y="67.5" />
+    </edge>
+    <edge source="university.jala.capstonelegion.sortStrategy.BubbleSortStrategy" target="university.jala.capstonelegion.printer.PrintManager" relationship="CREATE">
+      <point x="45.875" y="-104.0" />
+      <point x="3020.875" y="860.0" />
+      <point x="3015.0" y="860.0" />
+      <point x="3015.0" y="460.0" />
+      <point x="2715.0" y="460.0" />
+      <point x="2715.0" y="360.0" />
+      <point x="2716.5" y="360.0" />
+      <point x="61.5" y="55.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.4350142045454545" showDependencies="true" x="2827.8114285714287" y="595.0685714285715" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

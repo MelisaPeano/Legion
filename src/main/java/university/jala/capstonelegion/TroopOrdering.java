@@ -1,21 +1,12 @@
 package university.jala.capstonelegion;
 
-import university.jala.capstonelegion.sortStrategy.*;
 import university.jala.capstonelegion.enums.AlgorithmEnum;
 import university.jala.capstonelegion.enums.OrientationType;
+import university.jala.capstonelegion.sortStrategy.Compare;
+import university.jala.capstonelegion.sortStrategy.SortStrategy;
 import university.jala.capstonelegion.sortStrategy.factory.SortStrategyFactory;
 
 public class TroopOrdering extends Compare {
-    private final QuickSortStrategy quickSortStrategy;
-    private final InsertionSortStrategy insertionSortStrategy;
-    private final BubbleSortStrategy bubbleSortStrategy;
-
-    public TroopOrdering() {
-        this.quickSortStrategy = new QuickSortStrategy();
-        this.insertionSortStrategy = new InsertionSortStrategy();
-        this.bubbleSortStrategy = new BubbleSortStrategy();
-    }
-
     public Object[][] prepareToOrder(
             AlgorithmEnum algorithm,
             int rows, int columns,
@@ -28,10 +19,10 @@ public class TroopOrdering extends Compare {
         System.out.println("\n" + "Ordering By algorithm: " + algorithm + "\n");
 
         SortStrategy strategy = SortStrategyFactory.getStrategy(algorithm);
-        flattenArray = strategy.sort(flattenArray, type, rows, columns,speed);
-        System.out.println("Interactions of ordering with " + algorithm + ": "+ strategy.getTimeOfOrdering());
+        flattenArray = strategy.sort(flattenArray, type, rows, columns, speed);
 
-        // reconstruyo matriz
+        System.out.println("Interactions of ordering with " + algorithm + ": " + strategy.getTimeOfOrdering());
+
         int index = 0;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
@@ -126,7 +117,7 @@ public class TroopOrdering extends Compare {
                 }
                 return fields;
             default:
-                throw new IllegalArgumentException("Orientación desconocida: " + orientation);
+                throw new IllegalArgumentException("Orientation not found " + orientation);
         }
     }
 }

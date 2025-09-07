@@ -17,6 +17,7 @@ public class TroopsManager {
     private final PrintManager printManager;
     private final CharacterFactory characterFactory;
     private final TroopOrdering troopOrdering;
+    private final HashMap<String, Object> parameters;
     int[] arrayNumber;
     boolean invalidParameters = false;
     private AlgorithmEnum algorithm;
@@ -27,7 +28,7 @@ public class TroopsManager {
     private int rows;
     private int columns;
     private int speed;
-    private final HashMap<String, Object> parameters;
+    private String message;
 
 
     public TroopsManager() {
@@ -42,9 +43,10 @@ public class TroopsManager {
         this.troopOrdering = new TroopOrdering();
         this.parameters = new HashMap<>();
         this.speed = 0;
+        this.message = "";
     }
 
-    public void play(String [] args) throws RuntimeParameterExceptionWithMessage {
+    public void play(String[] args) throws RuntimeParameterExceptionWithMessage {
         verifyParameters(args);
         if (processParameters()) {
             representationOfBattlefield();
@@ -52,9 +54,10 @@ public class TroopsManager {
             orderByAlgorithm();
         }
     }
-/*
-Strategy
- */
+
+    /*
+    Here could be better implement Strategy(VerifyParameters).
+     */
     public void verifyParameters(String[] args) throws RuntimeParameterExceptionWithMessage {
         try {
             for (String arg : args) {
@@ -78,6 +81,7 @@ Strategy
                             } else {
                                 invalidParameters = true;
                                 System.out.println("[INVALID");
+                                message = "INVALID PARAMETER FOR ALGORITHM(A)";
                             }
                             break;
 
@@ -87,7 +91,7 @@ Strategy
                                 parameters.put("type", this.parameterType);
                             } else {
                                 invalidParameters = true;
-                                System.out.println("[INVALID]");
+                                message = "INVALID PARAMETER FOR TYPE_OF_REPRESENTATION(T)";
                             }
                             break;
 
@@ -100,7 +104,7 @@ Strategy
                                 parameters.put("troops", units);
                             } else {
                                 invalidParameters = true;
-                                System.out.println("[INVALID");
+                                message = "INVALID PARAMETER FOR NUMBER_OF_TROOPS(T)";
                             }
                             break;
                         case NUMBER_OF_TROOPS2:
@@ -112,17 +116,12 @@ Strategy
                                 parameters.put("troops", units);
                             } else {
                                 invalidParameters = true;
-                                System.out.println("[INVALID");
+                                message = "INVALID PARAMETER FOR NUMBER_OF_TROOPS(R)";
                             }
                             break;
                         case SIZE_OF_BATTLEFIELDS:
                             try {
                                 int size = Integer.parseInt(value);
-
-                                if (size == 0) {
-                                    parameters.put("Battlefield", 6);
-                                }
-
                                 if (size > 5 && size < 1000) {
                                     this.rows = size;
                                     this.columns = size;
@@ -133,6 +132,7 @@ Strategy
                                 parameters.put("Battlefield", rows);
                             } catch (NumberFormatException e) {
                                 invalidParameters = true;
+                                message = "INVALID PARAMETER FOR SIZE_OF_BATTLEFIELDS(F)";
                             }
                             break;
                         case ORIENTATION:
@@ -142,25 +142,35 @@ Strategy
                                     case "s" -> this.orientation = OrientationType.NORTH_TO_SOUTH;
                                     case "w" -> this.orientation = OrientationType.EAST_TO_WEST;
                                     case "e" -> this.orientation = OrientationType.WEST_TO_EAST;
+                                    default -> invalidParameters = true;
                                 }
                                 parameters.put("orientation", this.orientation);
+                            } else {
+                                invalidParameters = true;
+                                message = "INVALID PARAMETER FOR ORIENTATION(o)";
                             }
+                            break;
                         case SPEED:
-                            if(Integer.parseInt(value) > 200 && Integer.parseInt(value) < 10000) {
-                                this.speed = Integer.parseInt(value);
-                                parameters.put("speed", value);
+                            try {
+                                int speed = Integer.parseInt(value);
+                                if (speed < 10000) {
+                                    this.speed = speed;
+                                    parameters.put("speed", value);
+                                }
+                                if (speed < 0) {
+                                    this.speed = 100;
+                                }
+                            } catch (NumberFormatException e) {
+                                invalidParameters = true;
+                                message = "INVALID PARAMETER FOR SPEED(s)";
                             }
+                            break;
                     }
                 }
 
             }
         } catch (RuntimeParameterException e) {
-            System.out.println("Algorithm: [INVALID]");
-            System.out.println("Type: [INVALID]");
-            System.out.println("Troops: [INVALID]");
-            System.out.println("Orientation: [INVALID]");
-            System.out.println("Speed: [INVALID]");
-            System.out.println("\nInvalid parameters:");
+            invalidParameters = true;
             throw new RuntimeParameterExceptionWithMessage(e.getMessage());
         }
     }
@@ -171,7 +181,8 @@ Strategy
             System.out.println("Type: [INVALID]");
             System.out.println("Troops: [INVALID]");
             System.out.println("Orientation: [INVALID]");
-            System.out.println("\nInvalid parameters:");
+            System.out.println("Speed: [INVALID]");
+            System.out.println("\nInvalid parameters: What's wrong? : " + message);
             return false;
         } else {
             return true;
@@ -179,17 +190,17 @@ Strategy
     }
 
     public void assignRandomTroops() {
-        List<Object> lista = new ArrayList<>();
+        List<Object> temporaryList = new ArrayList<>();
 
         for (int i = 0; i < rows; i++) {
-            lista.addAll(Arrays.asList(matriz[i]).subList(0, columns));
+            temporaryList.addAll(Arrays.asList(matriz[i]).subList(0, columns));
         }
-        Collections.shuffle(lista);
+        Collections.shuffle(temporaryList);
 
         int index = 0;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                matriz[i][j] = lista.get(index++);
+                matriz[i][j] = temporaryList.get(index++);
             }
         }
         printManager.print(matriz, parameterType);
@@ -249,14 +260,13 @@ Strategy
                     columns,
                     matriz,
                     parameterType,
-                    orientation.getOrientation()),
-                    speed;
+                    orientation.getOrientation(),
+                    speed);
         } else {
             invalidParameters = true;
             System.out.println("[Invalid]");
         }
         printManager.print(this.matriz, parameterType);
     }
-
 }
 
